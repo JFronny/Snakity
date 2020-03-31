@@ -4,9 +4,10 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <PackageReference Include="CC-Functions.W32" Version="1.1.7388.28729" />
+    <Compile Remove="Graphics/LinuxDiffDraw.cs" Condition="'$(OS)' == 'Windows_NT'" />
+    <Compile Remove="Graphics/WindowsDiffDraw.cs" Condition="'$(OS)' != 'Windows_NT'" />
   </ItemGroup>
 
 </Project>

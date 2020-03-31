@@ -17,14 +17,12 @@ namespace Snakity.Graphics
         {
             string[] lines = Text.Split('\n').Select(s => s.EndsWith('\r') ? s.Remove(s.Length - 1) : s).ToArray();
             for (int i = 0; i < lines.Length; i++)
+            for (int j = 0; j < lines[i].Length; j++)
             {
-                for (int j = 0; j < lines[i].Length; j++)
-                {
-                    int tmpX = Position.X + j;
-                    int tmpY = Position.Y + i;
-                    if (tmpX < DiffDraw.Width && tmpY < DiffDraw.Height)
-                        DiffDraw.Set(tmpX, tmpY, lines[i][j]);
-                }
+                int tmpX = Position.X + j;
+                int tmpY = Position.Y + i;
+                if (tmpX < DiffDraw.Width && tmpY < DiffDraw.Height)
+                    DiffDraw.Set(tmpX, tmpY, lines[i][j]);
             }
         }
     }
