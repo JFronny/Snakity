@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using Snakity.Graphics;
 
 namespace Snakity.Loop
@@ -32,93 +33,18 @@ Highscore: {SettingsMan.Highscore}
    x - Exit");
                 switch (Console.ReadKey().Key)
                 {
+                    case ConsoleKey.Enter:
                     case ConsoleKey.S:
                         PlayRound();
                         while (GameOver())
                             PlayRound();
                         break;
+                    case ConsoleKey.Escape:
                     case ConsoleKey.X:
                         playing = false;
                         break;
                     case ConsoleKey.V:
-                        int currentSetting = 0;
-                        bool settingVals = true;
-                        while (settingVals)
-                        {
-                            Console.ResetColor();
-                            Console.Clear();
-                            Console.WriteLine("Smooth Player");
-                            Console.ForegroundColor =
-                                SettingsMan.SmoothPlayer ? ConsoleColor.Black : ConsoleColor.White;
-                            Console.BackgroundColor =
-                                SettingsMan.SmoothPlayer ? ConsoleColor.White : ConsoleColor.Black;
-                            Console.Write("Yes ");
-                            Console.ForegroundColor =
-                                SettingsMan.SmoothPlayer ? ConsoleColor.White : ConsoleColor.Black;
-                            Console.BackgroundColor =
-                                SettingsMan.SmoothPlayer ? ConsoleColor.Black : ConsoleColor.White;
-                            Console.WriteLine("No");
-                            Console.ResetColor();
-                            Console.WriteLine("Smooth Terrain");
-                            Console.ForegroundColor =
-                                SettingsMan.SmoothTerrain ? ConsoleColor.Black : ConsoleColor.White;
-                            Console.BackgroundColor =
-                                SettingsMan.SmoothTerrain ? ConsoleColor.White : ConsoleColor.Black;
-                            Console.Write("Yes ");
-                            Console.ForegroundColor =
-                                SettingsMan.SmoothTerrain ? ConsoleColor.White : ConsoleColor.Black;
-                            Console.BackgroundColor =
-                                SettingsMan.SmoothTerrain ? ConsoleColor.Black : ConsoleColor.White;
-                            Console.WriteLine("No");
-                            Console.ResetColor();
-                            Console.WriteLine("Use Color");
-                            Console.ForegroundColor =
-                                SettingsMan.Color ? ConsoleColor.Black : ConsoleColor.White;
-                            Console.BackgroundColor =
-                                SettingsMan.Color ? ConsoleColor.White : ConsoleColor.Black;
-                            Console.Write("Yes ");
-                            Console.ForegroundColor =
-                                SettingsMan.Color ? ConsoleColor.White : ConsoleColor.Black;
-                            Console.BackgroundColor =
-                                SettingsMan.Color ? ConsoleColor.Black : ConsoleColor.White;
-                            Console.WriteLine("No");
-                            Console.ResetColor();
-                            switch (Console.ReadKey().Key)
-                            {
-                                case ConsoleKey.Escape:
-                                case ConsoleKey.Enter:
-                                    settingVals = false;
-                                    break;;
-                                case ConsoleKey.LeftArrow:
-                                case ConsoleKey.RightArrow:
-                                case ConsoleKey.Spacebar:
-                                    switch (currentSetting)
-                                    {
-                                        case 0:
-                                            SettingsMan.SmoothPlayer = !SettingsMan.SmoothPlayer;
-                                            break;
-                                        case 1:
-                                            SettingsMan.SmoothTerrain = !SettingsMan.SmoothTerrain;
-                                            break;
-                                        case 2:
-                                            SettingsMan.Color = !SettingsMan.Color;
-                                            break;
-                                    }
-                                    break;
-                                case ConsoleKey.UpArrow:
-                                    currentSetting--;
-                                    if (currentSetting < 0)
-                                        currentSetting = 2;
-                                    break;
-                                case ConsoleKey.DownArrow:
-                                case ConsoleKey.Tab:
-                                    currentSetting++;
-                                    if (currentSetting > 2)
-                                        currentSetting = 0;
-                                    break;
-                            }
-                        }
-                        Console.ResetColor();
+                        SettingsGui.Show();
                         break;
                     case ConsoleKey.B:
                         Benchmark.Perform();
@@ -132,6 +58,7 @@ Highscore: {SettingsMan.Highscore}
 
         private static bool GameOver()
         {
+            Thread.Sleep(200);
             Console.Clear();
             if (_score > SettingsMan.Highscore)
                 SettingsMan.Highscore = _score;
@@ -141,14 +68,16 @@ Score: {_score}
 
 Play again? (y/n)");
             _score = 0;
-            return Console.ReadKey().KeyChar == 'y';
+            ConsoleKey tmp = Console.ReadKey().Key;
+            return tmp == ConsoleKey.Y || tmp == ConsoleKey.Enter;
         }
 
         private static void PlayRound()
         {
             Console.Clear();
             bool playing = true;
-            DiffDraw.Clear(5, 5);
+            DiffDraw.Clear(2, 2);
+            DiffDraw.Draw(false);
             Label scoreLabel = new Label(new Point(0, 0), "");
             Renderer.Labels.Clear();
             Renderer.Labels.Add(scoreLabel);
@@ -196,6 +125,7 @@ Play again? (y/n)");
                     _score++;
                 DiffDraw.Draw(SettingsMan.Color);
             }
+            Console.ResetColor();
         }
     }
 }

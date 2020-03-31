@@ -1,7 +1,15 @@
-﻿namespace Snakity
+﻿using System;
+
+namespace Snakity
 {
     public struct Point
     {
+        public bool Equals(Point other) => X == other.X && Y == other.Y;
+
+        public override bool Equals(object obj) => obj is Point other && Equals(other);
+
+        public override int GetHashCode() => HashCode.Combine(X, Y);
+
         public int X;
         public int Y;
 
