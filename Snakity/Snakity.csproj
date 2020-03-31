@@ -4,10 +4,5 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <Compile Remove="Graphics/LinuxDiffDraw.cs" Condition="'$(OS)' == 'Windows_NT'" />
-    <Compile Remove="Graphics/WindowsDiffDraw.cs" Condition="'$(OS)' != 'Windows_NT'" />
-  </ItemGroup>
 
 </Project>

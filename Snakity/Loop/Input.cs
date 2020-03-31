@@ -102,9 +102,10 @@ namespace Snakity.Loop
             return false;
         }
 
-        public static void ResetSpeed()
+        public static void Reset()
         {
             _delay = new TimeSpan(3000000);
+            _lastCheck = DateTime.Now;;
         }
 
         private static bool CheckPoint(Point point) =>

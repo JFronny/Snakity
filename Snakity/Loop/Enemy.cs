@@ -23,7 +23,7 @@ namespace Snakity.Loop
             while (tmp - _lastCheck > Delay)
             {
                 _lastCheck += Delay;
-                if (Program.Rnd.Next(50) != 0 && Renderer.Enemies.Count > 0) continue;
+                if (Renderer.Enemies.Count > 0 && Program.Rnd.Next(50) != 0 || Renderer.Enemies.Count > 4) continue;
                 Point tmp1 = new Point(Program.Rnd.Next(DiffDraw.Width), Program.Rnd.Next(DiffDraw.Height));
                 int attempts = 0;
                 while (!spawnMap[tmp1.X, tmp1.Y] && attempts < 5)
