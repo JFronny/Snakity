@@ -12,6 +12,9 @@ namespace Snakity
         public static void Perform()
         {
             Console.Clear();
+            Renderer.Enemies.Clear();
+            Renderer.Labels.Clear();
+            Renderer.Player.Clear();
             DiffDraw.Clear(21, 1);
             Label status = new Label(new Point(0, 0), "Snakity Bench running");
             Renderer.Labels.Add(status);
