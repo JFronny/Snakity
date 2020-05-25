@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using CC_Functions.Commandline.TUI;
+using CC_Functions.Misc;
 using Snakity.Graphics;
 using Label = Snakity.Graphics.Label;
 
@@ -15,6 +16,7 @@ namespace Snakity
     {
         public static void Perform()
         {
+            Levels.Load();
             Console.Clear();
             Renderer.Enemies.Clear();
             Renderer.Labels.Clear();
@@ -67,6 +69,10 @@ namespace Snakity
         {
             DiffDraw.Clear(0, 0);
             Renderer.Player.Clear();
+            Pixel[,] init = new Pixel[1,2];
+            init.Populate(new Pixel());
+            DiffDraw.Clear(init);
+            DiffDraw.FullDraw(false);
             Stopwatch t = Stopwatch.StartNew();
             (char[,] level, _) =
                 CharArrayLoader.LoadLevel(@"
@@ -103,8 +109,14 @@ namespace Snakity
             Renderer.Enemies.Add(new Point(5, 2));
             Renderer.Render(smooth2);
             DiffDraw.Draw(color);
+            foreach (string t1 in Levels.levels)
+            {
+                (char[,] lvl, _) =
+                    CharArrayLoader.LoadLevel(t1, SettingsMan.SmoothTerrain);
+                DiffDraw.Clear(ColorSelector.Get(lvl));
+                DiffDraw.Draw(true);
+            }
             t.Stop();
-            Thread.Sleep(500);
             return t.Elapsed;
         }
     }
