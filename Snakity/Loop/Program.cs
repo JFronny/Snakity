@@ -118,8 +118,10 @@ Play again? (y/n)");
                 if (Input.R)
                 {
                     _score = 0;
-                    DiffDraw.Clear();
+                    init.Populate(new Pixel());
+                    DiffDraw.Clear(init);
                     DiffDraw.Draw(SettingsMan.Color);
+                    Console.Clear();
                     (level, spawnable) = CharArrayLoader.LoadLevel(Levels.levels[Rnd.Next(Levels.levels.Length)], SettingsMan.SmoothTerrain);
                     DiffDraw.Clear(ColorSelector.Get(level));
                     Renderer.Player.Clear();
