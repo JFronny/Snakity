@@ -13,4 +13,7 @@
             if [[ -f "$(SolutionDir)Data/pkgtool.exe" ]]; then $(SolutionDir)Data/pkgtool.exe build --noLogo --binDir .; else echo Cound not find Package build tools, skipping; fi
         </PostBuildEvent>
     </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="CC-Functions.Commandline" Version="1.1.7450.31626" />
+    </ItemGroup>
 </Project>

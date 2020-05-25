@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Drawing;
+using System.Linq;
+using CC_Functions.Commandline.TUI;
 
 namespace Snakity.Graphics
 {
@@ -22,7 +24,7 @@ namespace Snakity.Graphics
                 int tmpX = Position.X + j;
                 int tmpY = Position.Y + i;
                 if (tmpX < DiffDraw.Width && tmpY < DiffDraw.Height)
-                    DiffDraw.Set(tmpX, tmpY, lines[i][j]);
+                    DiffDraw.Set(tmpX, tmpY, ColorSelector.Get(lines[i][j]));
             }
         }
     }

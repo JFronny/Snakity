@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using CC_Functions.Commandline.TUI;
+using OneLineSimple = CC_Functions.Misc.SpecialChars.OneLineSimple;
+using TwoLineSimple = CC_Functions.Misc.SpecialChars.TwoLineSimple;
 
 namespace Snakity.Graphics
 {
@@ -13,7 +17,7 @@ namespace Snakity.Graphics
         public static void Render(bool smooth)
         {
             foreach (Label label in Labels) label.Render();
-            foreach (Point point in Enemies) DiffDraw.Set(point, SpecialChars.Enemy);
+            foreach (Point point in Enemies) DiffDraw.Set(point, ColorSelector.Get(SpecialChars.Enemy));
             for (int i = 0; i < Player.Count; i++)
             {
                 (Point position, Point direction) = Player[i];
@@ -25,28 +29,28 @@ namespace Snakity.Graphics
                         if (Player.Count == 1)
                         {
                             if (direction == new Point(0, 1))
-                                selected = SpecialChars.Player.Up;
+                                selected = OneLineSimple.Up;
                             else if (direction == new Point(0, -1))
-                                selected = SpecialChars.Player.Down;
+                                selected = OneLineSimple.Down;
                             else if (direction == new Point(1, 0))
-                                selected = SpecialChars.Player.Left;
+                                selected = OneLineSimple.Left;
                             else if (direction == new Point(-1, 0))
-                                selected = SpecialChars.Player.Right;
+                                selected = OneLineSimple.Right;
                             else
-                                selected = SpecialChars.Player.Down;
+                                selected = OneLineSimple.Down;
                         }
                         else
                         {
                             Point prevPosition = Player[i + 1].Item1;
                             Point tmp = new Point(prevPosition.X - position.X, prevPosition.Y - position.Y);
                             if (tmp == new Point(0, 1))
-                                selected = SpecialChars.Player.Down;
+                                selected = OneLineSimple.Down;
                             else if (tmp == new Point(0, -1))
-                                selected = SpecialChars.Player.Up;
+                                selected = OneLineSimple.Up;
                             else if (tmp == new Point(1, 0))
-                                selected = SpecialChars.Player.Right;
+                                selected = OneLineSimple.Right;
                             else if (tmp == new Point(-1, 0))
-                                selected = SpecialChars.Player.Left;
+                                selected = OneLineSimple.Left;
                             else
                                 throw new ArgumentException($"Unexpected: {{X={tmp.X};Y={tmp.Y}}}");
                         }
@@ -56,13 +60,13 @@ namespace Snakity.Graphics
                         Point prevPosition = Player[i - 1].Item1;
                         Point tmp = new Point(prevPosition.X - position.X, prevPosition.Y - position.Y);
                         if (tmp == new Point(0, 1))
-                            selected = SpecialChars.Player.Down;
+                            selected = OneLineSimple.Down;
                         else if (tmp == new Point(0, -1))
-                            selected = SpecialChars.Player.Up;
+                            selected = OneLineSimple.Up;
                         else if (tmp == new Point(1, 0))
-                            selected = SpecialChars.Player.Right;
+                            selected = OneLineSimple.Right;
                         else if (tmp == new Point(-1, 0))
-                            selected = SpecialChars.Player.Left;
+                            selected = OneLineSimple.Left;
                         else
                             throw new ArgumentException($"Unexpected: {{X={tmp.X};Y={tmp.Y}}}");
                     }
@@ -104,13 +108,13 @@ namespace Snakity.Graphics
                                 switch (directions[1])
                                 {
                                     case Direction.Down:
-                                        selected = SpecialChars.Player.UpDown;
+                                        selected = OneLineSimple.UpDown;
                                         break;
                                     case Direction.Left:
-                                        selected = SpecialChars.Player.UpLeft;
+                                        selected = OneLineSimple.UpLeft;
                                         break;
                                     case Direction.Right:
-                                        selected = SpecialChars.Player.UpRight;
+                                        selected = OneLineSimple.UpRight;
                                         break;
                                     default:
                                         throw new ArgumentOutOfRangeException();
@@ -121,10 +125,10 @@ namespace Snakity.Graphics
                                 switch (directions[1])
                                 {
                                     case Direction.Left:
-                                        selected = SpecialChars.Player.DownLeft;
+                                        selected = OneLineSimple.DownLeft;
                                         break;
                                     case Direction.Right:
-                                        selected = SpecialChars.Player.DownRight;
+                                        selected = OneLineSimple.DownRight;
                                         break;
                                     default:
                                         throw new ArgumentOutOfRangeException();
@@ -135,7 +139,7 @@ namespace Snakity.Graphics
                                 switch (directions[1])
                                 {
                                     case Direction.Right:
-                                        selected = SpecialChars.Player.LeftRight;
+                                        selected = OneLineSimple.LeftRight;
                                         break;
                                     default:
                                         throw new ArgumentOutOfRangeException();
@@ -150,7 +154,7 @@ namespace Snakity.Graphics
                 else
                     selected = 'P';
 
-                DiffDraw.Set(position, selected);
+                DiffDraw.Set(position, ColorSelector.Get(selected));
             }
         }
     }

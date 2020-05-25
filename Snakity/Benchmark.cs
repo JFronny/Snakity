@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
+using CC_Functions.Commandline.TUI;
 using Snakity.Graphics;
+using Label = Snakity.Graphics.Label;
 
 namespace Snakity
 {
@@ -73,7 +77,7 @@ namespace Snakity
 #             #     #
 #            ##     #
 #####################", smooth1);
-            DiffDraw.Clear(level);
+            DiffDraw.Clear(ColorSelector.Get(level));
             Renderer.Player.Add(new Tuple<Point, Point>(new Point(1, 2), new Point(0, 0)));
             Renderer.Player.Add(new Tuple<Point, Point>(new Point(2, 2), new Point(0, 0)));
             Renderer.Player.Add(new Tuple<Point, Point>(new Point(2, 3), new Point(0, 0)));
@@ -100,6 +104,7 @@ namespace Snakity
             Renderer.Render(smooth2);
             DiffDraw.Draw(color);
             t.Stop();
+            Thread.Sleep(500);
             return t.Elapsed;
         }
     }

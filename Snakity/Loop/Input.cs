@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using CC_Functions.Commandline.TUI;
 using Snakity.Graphics;
 
 namespace Snakity.Loop
@@ -66,7 +68,7 @@ namespace Snakity.Loop
                 Console.ReadKey();
 
             if (headDelta != new Point(0, 0) && (Renderer.Player.Count < 2 ||
-                                                 headDelta != Renderer.Player[1].Item1 - Renderer.Player[0].Item1))
+                                                 headDelta != Renderer.Player[1].Item1.m(Renderer.Player[0].Item1)))
                 Renderer.Player[0] = new Tuple<Point, Point>(Renderer.Player[0].Item1, headDelta);
         }
 
@@ -79,15 +81,15 @@ namespace Snakity.Loop
                 _lastCheck += _delay;
                 Point head = Renderer.Player[0].Item1;
                 Point headDelta = Renderer.Player[0].Item2;
-                if (headDelta.Y == -1 && (head.Y == 0 || !CheckPoint(head + new Point(0, -1))))
+                if (headDelta.Y == -1 && (head.Y == 0 || !CheckPoint(head.p(new Point(0, -1)))))
                     return true;
-                if (headDelta.X == -1 && (head.X == 0 || !CheckPoint(head + new Point(-1, 0))))
+                if (headDelta.X == -1 && (head.X == 0 || !CheckPoint(head.p(new Point(-1, 0)))))
                     return true;
-                if (headDelta.Y == 1 && (head.Y >= DiffDraw.Height - 1 || !CheckPoint(head + new Point(0, 1))))
+                if (headDelta.Y == 1 && (head.Y >= DiffDraw.Height - 1 || !CheckPoint(head.p(new Point(0, 1)))))
                     return true;
-                if (headDelta.X == 1 && (head.X >= DiffDraw.Width - 1 || !CheckPoint(head + new Point(1, 0))))
+                if (headDelta.X == 1 && (head.X >= DiffDraw.Width - 1 || !CheckPoint(head.p(new Point(1, 0)))))
                     return true;
-                Renderer.Player.Insert(0, new Tuple<Point, Point>(Renderer.Player[0].Item1 + headDelta, headDelta));
+                Renderer.Player.Insert(0, new Tuple<Point, Point>(Renderer.Player[0].Item1.p(headDelta), headDelta));
                 if (_shouldIncrease)
                 {
                     _shouldIncrease = false;
@@ -107,8 +109,11 @@ namespace Snakity.Loop
             _delay = new TimeSpan(3000000);
             _lastCheck = DateTime.Now;;
         }
+        
+        private static Point p(this Point pt, Point pt2) => new Point(pt.X + pt2.X, pt.Y + pt2.Y);
+        private static Point m(this Point pt, Point pt2) => new Point(pt.X - pt2.X, pt.Y - pt2.Y);
 
         private static bool CheckPoint(Point point) =>
-            DiffDraw.Get(point) == SpecialChars.Space || DiffDraw.Get(point) == SpecialChars.Enemy;
+            DiffDraw.Get(point) == CC_Functions.Misc.SpecialChars.Empty || DiffDraw.Get(point) == SpecialChars.Enemy;
     }
 }

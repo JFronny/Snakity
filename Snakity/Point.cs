@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 
 namespace Snakity
 {
@@ -27,4 +27,4 @@ namespace Snakity
 
         public static Point operator -(Point left, Point right) => new Point(left.X - right.X, left.Y - right.Y);
     }
-}
+}*/

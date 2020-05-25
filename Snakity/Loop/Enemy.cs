@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
+using CC_Functions.Commandline.TUI;
 using Snakity.Graphics;
 
 namespace Snakity.Loop
@@ -26,7 +28,7 @@ namespace Snakity.Loop
                 if (Renderer.Enemies.Count > 0 && Program.Rnd.Next(50) != 0 || Renderer.Enemies.Count > 4) continue;
                 Point tmp1 = new Point(Program.Rnd.Next(DiffDraw.Width), Program.Rnd.Next(DiffDraw.Height));
                 int attempts = 0;
-                while (!spawnMap[tmp1.X, tmp1.Y] && attempts < 5)
+                while (!spawnMap[tmp1.Y, tmp1.X] && attempts < 5)
                 {
                     tmp1.X = Program.Rnd.Next(DiffDraw.Width);
                     tmp1.Y = Program.Rnd.Next(DiffDraw.Height);

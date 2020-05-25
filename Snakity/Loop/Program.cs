@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
+using CC_Functions.Commandline.TUI;
+using CC_Functions.Misc;
 using Snakity.Graphics;
+using Label = Snakity.Graphics.Label;
 
 namespace Snakity.Loop
 {
@@ -79,7 +83,9 @@ Play again? (y/n)");
         {
             Console.Clear();
             bool playing = true;
-            DiffDraw.Clear(2, 2);
+            Pixel[,] init = new Pixel[1,2];
+            init.Populate(new Pixel());
+            DiffDraw.Clear(init);
             DiffDraw.Draw(false);
             Label scoreLabel = new Label(new Point(0, 0), "");
             Renderer.Labels.Clear();
@@ -91,12 +97,12 @@ Play again? (y/n)");
             Renderer.Player.Clear();
             Renderer.Player.Add(new Tuple<Point, Point>(new Point(1, 1), new Point(0, 1)));
             Renderer.Enemies.Clear();
-            DiffDraw.Clear((char[,]) level.Clone());
+            DiffDraw.Clear(ColorSelector.Get(level));
             DiffDraw.Draw(SettingsMan.Color);
             Input.Reset();
             while (playing)
             {
-                DiffDraw.Clear((char[,]) level.Clone());
+                DiffDraw.Clear(ColorSelector.Get(level));
                 scoreLabel.Text = $"Score: {_score}";
                 Renderer.Render(SettingsMan.SmoothPlayer);
                 Input.Get();
@@ -115,7 +121,7 @@ Play again? (y/n)");
                     DiffDraw.Clear();
                     DiffDraw.Draw(SettingsMan.Color);
                     (level, spawnable) = CharArrayLoader.LoadLevel(Levels.levels[Rnd.Next(Levels.levels.Length)], SettingsMan.SmoothTerrain);
-                    DiffDraw.Clear((char[,]) level.Clone());
+                    DiffDraw.Clear(ColorSelector.Get(level));
                     Renderer.Player.Clear();
                     Renderer.Player.Add(new Tuple<Point, Point>(new Point(2, 2), new Point(0, 1)));
                     Renderer.Enemies.Clear();

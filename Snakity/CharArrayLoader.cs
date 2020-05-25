@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Snakity.Graphics;
+using CC_Functions.Misc;
+using SpecialChars = CC_Functions.Misc.SpecialChars;
 
 namespace Snakity
 {
@@ -8,7 +10,7 @@ namespace Snakity
     {
         public static Tuple<char[,], bool[,]> LoadLevel(string level, bool smooth)
         {
-            char[,] content = Load(level);
+            char[,] content = level.ToNdArray2D();
             int width = content.GetLength(0);
             int height = content.GetLength(1);
             bool[,] spawn = new bool[width, height];
@@ -18,20 +20,24 @@ namespace Snakity
                 switch (content[x, y])
                 {
                     case ' ':
-                        content[x, y] = SpecialChars.Space;
+                        content[x, y] = SpecialChars.Empty;
                         break;
                     case '.':
-                        content[x, y] = SpecialChars.Space;
+                        content[x, y] = SpecialChars.Empty;
                         spawn[x, y] = true;
                         break;
                     case '#':
                         walls[x, y] = true;
                         char selected;
                         //Determine adjacent blocks
-                        bool up = y > 0 && (walls[x, y - 1] || content[x, y - 1] == '#');
+                        /*bool up = y > 0 && (walls[x, y - 1] || content[x, y - 1] == '#');
                         bool down = y < height - 1 && (walls[x, y + 1] || content[x, y + 1] == '#');
                         bool left = x > 0 && (walls[x - 1, y] || content[x - 1, y] == '#');
-                        bool right = x < width - 1 && (walls[x + 1, y] || content[x + 1, y] == '#');
+                        bool right = x < width - 1 && (walls[x + 1, y] || content[x + 1, y] == '#');*/
+                        bool left = y > 0 && (walls[x, y - 1] || content[x, y - 1] == '#');
+                        bool right = y < height - 1 && (walls[x, y + 1] || content[x, y + 1] == '#');
+                        bool up = x > 0 && (walls[x - 1, y] || content[x - 1, y] == '#');
+                        bool down = x < width - 1 && (walls[x + 1, y] || content[x + 1, y] == '#');
                         //figure out char
                         if (smooth)
                             if (up)
@@ -40,17 +46,17 @@ namespace Snakity
                                 {
                                     if (left)
                                         selected = right
-                                            ? SpecialChars.Wall.UpDownLeftRight
-                                            : SpecialChars.Wall.UpDownLeft;
+                                            ? SpecialChars.TwoLineSimple.UpDownLeftRight
+                                            : SpecialChars.TwoLineSimple.UpDownLeft;
                                     else
-                                        selected = right ? SpecialChars.Wall.UpDownRight : SpecialChars.Wall.UpDown;
+                                        selected = right ? SpecialChars.TwoLineSimple.UpDownRight : SpecialChars.TwoLineSimple.UpDown;
                                 }
                                 else
                                 {
                                     if (left)
-                                        selected = right ? SpecialChars.Wall.UpLeftRight : SpecialChars.Wall.UpLeft;
+                                        selected = right ? SpecialChars.TwoLineSimple.UpLeftRight : SpecialChars.TwoLineSimple.UpLeft;
                                     else
-                                        selected = right ? SpecialChars.Wall.UpRight : SpecialChars.Wall.Up;
+                                        selected = right ? SpecialChars.TwoLineSimple.UpRight : SpecialChars.TwoLineSimple.Up;
                                 }
                             }
                             else
@@ -58,16 +64,16 @@ namespace Snakity
                                 if (down)
                                 {
                                     if (left)
-                                        selected = right ? SpecialChars.Wall.DownLeftRight : SpecialChars.Wall.DownLeft;
+                                        selected = right ? SpecialChars.TwoLineSimple.DownLeftRight : SpecialChars.TwoLineSimple.DownLeft;
                                     else
-                                        selected = right ? SpecialChars.Wall.DownRight : SpecialChars.Wall.Down;
+                                        selected = right ? SpecialChars.TwoLineSimple.DownRight : SpecialChars.TwoLineSimple.Down;
                                 }
                                 else
                                 {
                                     if (left)
-                                        selected = right ? SpecialChars.Wall.LeftRight : SpecialChars.Wall.Left;
+                                        selected = right ? SpecialChars.TwoLineSimple.LeftRight : SpecialChars.TwoLineSimple.Left;
                                     else
-                                        selected = right ? SpecialChars.Wall.Right : '#';
+                                        selected = right ? SpecialChars.TwoLineSimple.Right : '#';
                                 }
                             }
                         else
@@ -78,24 +84,6 @@ namespace Snakity
                 }
 
             return new Tuple<char[,], bool[,]>(content, spawn);
-        }
-
-        public static char[,] Load(string text)
-        {
-            string[] levelArr = text.Split('\n');
-            int width = levelArr.Select(s => s.Length).OrderBy(s => s).Last();
-            int height = levelArr.Length;
-            char[,] tmp = new char[width, height];
-            for (int x = 0; x < width; x++)
-            for (int y = 0; y < height; y++)
-                tmp[x, y] = SpecialChars.Space;
-            for (int i = 0; i < levelArr.Length; i++)
-            {
-                string s = levelArr[i];
-                for (int j = 0; j < s.Length; j++) tmp[j, i] = s[j];
-            }
-
-            return tmp;
         }
     }
 }

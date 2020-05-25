@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Linq;
+using CC_Functions.Commandline.TUI;
+using OneLineSimple = CC_Functions.Misc.SpecialChars.OneLineSimple;
+using TwoLineSimple = CC_Functions.Misc.SpecialChars.TwoLineSimple;
 
 namespace Snakity.Graphics
 {
@@ -7,35 +10,48 @@ namespace Snakity.Graphics
     {
         private static readonly char[] WallChars =
         {
-            SpecialChars.Wall.Up, SpecialChars.Wall.Down, SpecialChars.Wall.Left,
-            SpecialChars.Wall.Right, SpecialChars.Wall.DownLeft, SpecialChars.Wall.DownRight,
-            SpecialChars.Wall.LeftRight, SpecialChars.Wall.UpDown, SpecialChars.Wall.UpLeft,
-            SpecialChars.Wall.UpRight, SpecialChars.Wall.DownLeftRight, SpecialChars.Wall.UpDownLeft,
-            SpecialChars.Wall.UpDownRight, SpecialChars.Wall.UpLeftRight, SpecialChars.Wall.UpDownLeftRight,
+            TwoLineSimple.Up, TwoLineSimple.Down, TwoLineSimple.Left,
+            TwoLineSimple.Right, TwoLineSimple.DownLeft, TwoLineSimple.DownRight,
+            TwoLineSimple.LeftRight, TwoLineSimple.UpDown, TwoLineSimple.UpLeft,
+            TwoLineSimple.UpRight, TwoLineSimple.DownLeftRight, TwoLineSimple.UpDownLeft,
+            TwoLineSimple.UpDownRight, TwoLineSimple.UpLeftRight, TwoLineSimple.UpDownLeftRight,
             '#'
         };
 
         private static readonly char[] PlayerChars =
         {
-            SpecialChars.Player.Up, SpecialChars.Player.Down, SpecialChars.Player.Left,
-            SpecialChars.Player.Right, SpecialChars.Player.DownLeft, SpecialChars.Player.DownRight,
-            SpecialChars.Player.LeftRight, SpecialChars.Player.UpDown, SpecialChars.Player.UpLeft,
-            SpecialChars.Player.UpRight, SpecialChars.Player.DownLeftRight, SpecialChars.Player.UpDownLeft,
-            SpecialChars.Player.UpDownRight, SpecialChars.Player.UpLeftRight, SpecialChars.Player.UpDownLeftRight,
+            OneLineSimple.Up, OneLineSimple.Down, OneLineSimple.Left,
+            OneLineSimple.Right, OneLineSimple.DownLeft, OneLineSimple.DownRight,
+            OneLineSimple.LeftRight, OneLineSimple.UpDown, OneLineSimple.UpLeft,
+            OneLineSimple.UpRight, OneLineSimple.DownLeftRight, OneLineSimple.UpDownLeft,
+            OneLineSimple.UpDownRight, OneLineSimple.UpLeftRight, OneLineSimple.UpDownLeftRight,
             'P'
         };
 
-        public static ConsoleColor Get(char c)
+        public static Pixel Get(char c)
         {
+            Pixel p = new Pixel(c);
             if (PlayerChars.Contains(c))
-                return ConsoleColor.Green;
-            if (WallChars.Contains(c) || c == '#')
-                return ConsoleColor.Gray;
-            return c switch
+                p.ForeColor = ConsoleColor.Green;
+            else if (WallChars.Contains(c) || c == '#')
+                p.ForeColor = ConsoleColor.Gray;
+            else p.ForeColor = c switch
             {
                 SpecialChars.Enemy => ConsoleColor.Yellow,
                 _ => ConsoleColor.White
             };
+            return p;
+        }
+
+        public static Pixel[,] Get(char[,] c)
+        {
+            int w = c.GetLength(0);
+            int h = c.GetLength(1);
+            Pixel[,] output = new Pixel[w, h];
+            for (int x = 0; x < w; x++)
+            for (int y = 0; y < h; y++)
+                output[x, y] = Get(c[x, y]);
+            return output;
         }
     }
 }
