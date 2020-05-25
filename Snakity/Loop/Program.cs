@@ -68,8 +68,11 @@ Score: {_score}
 
 Play again? (y/n)");
             _score = 0;
-            ConsoleKey tmp = Console.ReadKey().Key;
-            return tmp == ConsoleKey.Y || tmp == ConsoleKey.Enter;
+            ConsoleKey tmp;
+            do
+                tmp = Console.ReadKey().Key;
+            while (tmp != ConsoleKey.Y && tmp != ConsoleKey.N);
+            return tmp == ConsoleKey.Y;
         }
 
         private static void PlayRound()
@@ -81,6 +84,7 @@ Play again? (y/n)");
             Label scoreLabel = new Label(new Point(0, 0), "");
             Renderer.Labels.Clear();
             Renderer.Labels.Add(scoreLabel);
+            Levels.Load();
             (char[,] level, bool[,] spawnable) =
                 CharArrayLoader.LoadLevel(Levels.levels[Rnd.Next(Levels.levels.Length)], SettingsMan.SmoothTerrain);
             bool hasIncreased = false;

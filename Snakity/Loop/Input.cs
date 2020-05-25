@@ -6,7 +6,7 @@ namespace Snakity.Loop
     public static class Input
     {
         private static DateTime _lastCheck = DateTime.Now;
-        private static TimeSpan _delay = new TimeSpan(3000000);
+        private static TimeSpan _delay = new TimeSpan(4000000);
         private static bool _shouldIncrease;
 
         public static bool R;
@@ -91,7 +91,7 @@ namespace Snakity.Loop
                 if (_shouldIncrease)
                 {
                     _shouldIncrease = false;
-                    _delay = _delay.Subtract(new TimeSpan((int) (500 * _delay.TotalMilliseconds)));
+                    _delay = _delay.Subtract(new TimeSpan((int) (200 * _delay.TotalMilliseconds)));
                 }
                 else
                 {
