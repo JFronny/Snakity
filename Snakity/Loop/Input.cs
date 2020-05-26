@@ -23,6 +23,8 @@ namespace Snakity.Loop
                 {
                     case ConsoleKey.W:
                     case ConsoleKey.UpArrow:
+                    case ConsoleKey.K:
+                    case ConsoleKey.NumPad8:
                         if (headDelta.Y == 0)
                             headDelta.Y = -1;
                         else
@@ -31,6 +33,8 @@ namespace Snakity.Loop
                         break;
                     case ConsoleKey.A:
                     case ConsoleKey.LeftArrow:
+                    case ConsoleKey.H:
+                    case ConsoleKey.NumPad4:
                         headDelta.X = headDelta.X switch
                         {
                             0 => -1,
@@ -39,6 +43,8 @@ namespace Snakity.Loop
                         break;
                     case ConsoleKey.S:
                     case ConsoleKey.DownArrow:
+                    case ConsoleKey.J:
+                    case ConsoleKey.NumPad2:
                         headDelta.Y = headDelta.Y switch
                         {
                             0 => 1,
@@ -47,6 +53,8 @@ namespace Snakity.Loop
                         break;
                     case ConsoleKey.D:
                     case ConsoleKey.RightArrow:
+                    case ConsoleKey.L:
+                    case ConsoleKey.NumPad6:
                         headDelta.X = headDelta.X switch
                         {
                             0 => 1,
@@ -54,9 +62,12 @@ namespace Snakity.Loop
                         };
                         break;
                     case ConsoleKey.R:
+                    case ConsoleKey.OemPlus:
                         R = true;
                         break;
                     case ConsoleKey.Escape:
+                    case ConsoleKey.End:
+                    case ConsoleKey.OemMinus:
                         Esc = true;
                         break;
                     case ConsoleKey.P:

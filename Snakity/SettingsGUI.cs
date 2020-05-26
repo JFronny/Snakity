@@ -19,12 +19,18 @@ namespace Snakity
                 {
                     case ConsoleKey.Escape:
                     case ConsoleKey.Enter:
+                    case ConsoleKey.OemPlus:
+                    case ConsoleKey.OemMinus:
                         settingVals = false;
                         break;
                         ;
                     case ConsoleKey.LeftArrow:
                     case ConsoleKey.RightArrow:
+                    case ConsoleKey.H:
+                    case ConsoleKey.L:
                     case ConsoleKey.Spacebar:
+                    case ConsoleKey.NumPad4:
+                    case ConsoleKey.NumPad6:
                         switch (currentSetting)
                         {
                             case 0:
@@ -39,12 +45,16 @@ namespace Snakity
                         }
                         break;
                     case ConsoleKey.UpArrow:
+                    case ConsoleKey.K:
+                    case ConsoleKey.NumPad8:
                         currentSetting--;
                         if (currentSetting < 0)
                             currentSetting = 2;
                         break;
                     case ConsoleKey.DownArrow:
+                    case ConsoleKey.J:
                     case ConsoleKey.Tab:
+                    case ConsoleKey.NumPad2:
                         currentSetting++;
                         if (currentSetting > 2)
                             currentSetting = 0;

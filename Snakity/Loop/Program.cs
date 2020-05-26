@@ -38,16 +38,20 @@ Highscore: {SettingsMan.Highscore}
                 switch (Console.ReadKey().Key)
                 {
                     case ConsoleKey.Enter:
+                    case ConsoleKey.OemPlus:
                     case ConsoleKey.S:
                         PlayRound();
                         while (GameOver())
                             PlayRound();
                         break;
                     case ConsoleKey.Escape:
+                    case ConsoleKey.OemMinus:
+                    case ConsoleKey.Q:
                     case ConsoleKey.X:
                         playing = false;
                         break;
                     case ConsoleKey.V:
+                    case ConsoleKey.Multiply:
                         SettingsGui.Show();
                         break;
                     case ConsoleKey.B:
@@ -75,8 +79,8 @@ Play again? (y/n)");
             ConsoleKey tmp;
             do
                 tmp = Console.ReadKey().Key;
-            while (tmp != ConsoleKey.Y && tmp != ConsoleKey.N);
-            return tmp == ConsoleKey.Y;
+            while (tmp != ConsoleKey.Y && tmp != ConsoleKey.Enter && tmp != ConsoleKey.S && tmp != ConsoleKey.N && tmp != ConsoleKey.Escape && tmp != ConsoleKey.End);
+            return tmp == ConsoleKey.Y || tmp == ConsoleKey.Enter || tmp == ConsoleKey.S;
         }
 
         private static void PlayRound()
