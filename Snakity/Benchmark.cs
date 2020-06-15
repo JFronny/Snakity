@@ -72,7 +72,7 @@ namespace Snakity
             Pixel[,] init = new Pixel[1,2];
             init.Populate(new Pixel());
             DiffDraw.Clear(init);
-            DiffDraw.FullDraw(false);
+            DiffDraw.Draw(false, true);
             Stopwatch t = Stopwatch.StartNew();
             (char[,] level, _) =
                 CharArrayLoader.LoadLevel(@"
